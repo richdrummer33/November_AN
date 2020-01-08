@@ -20,7 +20,7 @@ public class FireballLauncher : MonoBehaviour
             GameObject fireballClone; // Create a temp variable to hold the cloned prefab (i.e. the "instance")
             fireballClone = Instantiate(fireballPrefab, transform.position, transform.rotation); // Clone the prefab. This function returns the object it creates (GameObject).
 
-            fireballClone.GetComponent<Rigidbody>().AddForce(transform.forward * 15f, ForceMode.Impulse);
+            fireballClone.GetComponent<Rigidbody>().AddForce(transform.forward * 50f, ForceMode.Impulse);
 
             Destroy(fireballClone, 10f); // destroyed after 10 seconds
         }
