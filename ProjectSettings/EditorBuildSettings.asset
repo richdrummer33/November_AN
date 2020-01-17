@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Session2_Terrain.unity
-    guid: 7a0844948ff638e4f9b6f07d8b22c37e
+    path: Assets/Scenes/Session10_ArFoundationMaze.unity
+    guid: 0edd4fdd7e6062445999e73ff58b94b5
   m_configObjects: {}
