@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Grabbable
   - Ball
+  - Paint
   layers:
   - Default
   - TransparentFX

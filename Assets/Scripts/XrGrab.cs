@@ -12,7 +12,13 @@ public class XrGrab : MonoBehaviour
 
     public string gripAxisName;
 
+    public string triggerAxisName; // For interacting
+
     bool handIsClosed = false;
+
+    bool triggerIsPulled = false;
+
+    #region Collisions
 
     // This function fires only at the instant the collision occurrs
     private void OnTriggerEnter(Collider other) // This code will run when this object collides with other <rigidboies witch colliders>
@@ -26,15 +32,13 @@ public class XrGrab : MonoBehaviour
         collidingObject = null; // Empty the bucket (i.e. "Forget" what we're touching)
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    #endregion
 
     // Update is called once per frame
     void Update()
     {
+        #region Grab n Release
+
         if (Input.GetAxis(gripAxisName) > 0.5f && handIsClosed == false) // Check for left-mouse click - if touching object, then grab it
         {
             if (handAnimator != null)
@@ -64,7 +68,34 @@ public class XrGrab : MonoBehaviour
 
             handIsClosed = false; // I *just* opened my hand
         }
+
+        #endregion
+
+        #region Interact
+
+        if(Input.GetAxis(triggerAxisName) > 0.5f && triggerIsPulled == false) // If pulling trigger, then interact
+        {
+            if(heldObject != null) // Check that we're actually holding something before attempting interact
+            {
+                heldObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver); // Attempt to call/run the Interact() method/function on the held object
+            }
+
+            triggerIsPulled = true; // I just* pulled the trigger
+        }
+        else if (Input.GetAxis(triggerAxisName) < 0.5f && triggerIsPulled == true) // If trigger releases, stop interact
+        {
+            if(heldObject != null)
+            {
+                heldObject.SendMessage("StopInteract", SendMessageOptions.DontRequireReceiver); // Attempt to call/run the the StopInteract() method/function on the held object
+            }
+
+            triggerIsPulled = false; // I just* released the trigger
+        }
+
+        #endregion
     }
+
+    #region Grab and Release
 
     void Grab()
     {
@@ -83,4 +114,6 @@ public class XrGrab : MonoBehaviour
 
         heldObject = null; // "Forget" what we were holding
     }
+
+    #endregion
 }
