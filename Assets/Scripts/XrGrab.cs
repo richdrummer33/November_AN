@@ -99,20 +99,44 @@ public class XrGrab : MonoBehaviour
 
     void Grab()
     {
-        collidingObject.GetComponent<Rigidbody>().isKinematic = true; // To prevent object from being influenced by external forces
+        FixedJoint myJoint = gameObject.AddComponent<FixedJoint>(); // Add fixed joint component to this hand
 
-        collidingObject.transform.SetParent(this.transform); // So that collidingObject follows the motion of the hand
+        myJoint.connectedBody = collidingObject.GetComponent<Rigidbody>(); // The rigidbody of the object we are colliding with (connecting the joint)
+
+        myJoint.breakForce = 1000f; // Values can be adjusted to your liking
+
+        myJoint.breakTorque = 1000f; // Values can be adjusted to your liking
+
+        collidingObject.transform.SetParent(transform); // Now hand influences velocity of held object more directly (prevents physics jitter)
 
         heldObject = collidingObject; // "Remember" what holding so can release
+
+        // Below is the old parenting grab method
+        //collidingObject.GetComponent<Rigidbody>().isKinematic = true; // To prevent object from being influenced by external 
+        //collidingObject.transform.SetParent(this.transform); // So that collidingObject follows the motion of the 
+        //heldObject = collidingObject;
     }
 
     void Release()
     {
-        heldObject.GetComponent<Rigidbody>().isKinematic = false; // Responds to forces incl gravity
+        Destroy(GetComponent<FixedJoint>());
 
-        heldObject.transform.SetParent(null); // Make it parentless 
+        collidingObject.transform.SetParent(null); // Make it parentless
 
-        heldObject = null; // "Forget" what we were holding
+        heldObject = null;
+
+        // Below is the old parenting grab method
+        //heldObject.GetComponent<Rigidbody>().isKinematic = false; // Responds to forces incl gravity
+        //heldObject.transform.SetParent(null); // Make it parentless 
+        //heldObject = null; // "Forget" what we were holding
+    }
+
+    // This method fires immediately when joint breaks
+    private void OnJointBreak(float breakForce)
+    {
+        heldObject.transform.SetParent(null); // Make it stop tracking the velocity of our hand
+        
+        heldObject = null; // Forget what holding
     }
 
     #endregion
