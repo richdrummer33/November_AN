@@ -23,13 +23,19 @@ public class XrGrab : MonoBehaviour
     // This function fires only at the instant the collision occurrs
     private void OnTriggerEnter(Collider other) // This code will run when this object collides with other <rigidboies witch colliders>
     {
-        collidingObject = other.gameObject; // Take note of what I am touching, so that when I click the left mouse button, I grab that object
+        if (other.tag == "Grabbable" || other.tag == "Control")
+        {
+            collidingObject = other.gameObject; // Take note of what I am touching, so that when I click the left mouse button, I grab that object
+        }
     }
 
     // This function fires only at the instant the collision stops occurring
     private void OnTriggerExit(Collider other)
     {
-        collidingObject = null; // Empty the bucket (i.e. "Forget" what we're touching)
+        if (other.gameObject == collidingObject)
+        {
+            collidingObject = null; // Empty the bucket (i.e. "Forget" what we're touching)
+        }
     }
 
     #endregion
@@ -107,36 +113,55 @@ public class XrGrab : MonoBehaviour
 
         myJoint.breakTorque = 1000f; // Values can be adjusted to your liking
 
-        collidingObject.transform.SetParent(transform); // Now hand influences velocity of held object more directly (prevents physics jitter)
+        if (collidingObject.tag != "Control")
+        {
+            collidingObject.transform.SetParent(transform); // Now hand influences velocity of held object more directly (prevents physics jitter)
+        }
 
         heldObject = collidingObject; // "Remember" what holding so can release
-
-        // Below is the old parenting grab method
-        //collidingObject.GetComponent<Rigidbody>().isKinematic = true; // To prevent object from being influenced by external 
-        //collidingObject.transform.SetParent(this.transform); // So that collidingObject follows the motion of the 
-        //heldObject = collidingObject;
     }
 
     void Release()
     {
         Destroy(GetComponent<FixedJoint>());
 
-        collidingObject.transform.SetParent(null); // Make it parentless
+        if (heldObject.tag != "Control")
+        {
+            heldObject.transform.SetParent(null); // Make it parentless
+        }
 
         heldObject = null;
-
-        // Below is the old parenting grab method
-        //heldObject.GetComponent<Rigidbody>().isKinematic = false; // Responds to forces incl gravity
-        //heldObject.transform.SetParent(null); // Make it parentless 
-        //heldObject = null; // "Forget" what we were holding
     }
 
     // This method fires immediately when joint breaks
     private void OnJointBreak(float breakForce)
     {
-        heldObject.transform.SetParent(null); // Make it stop tracking the velocity of our hand
-        
+        if (heldObject.tag != "Control")
+        {
+            heldObject.transform.SetParent(null); // Make it stop tracking the velocity of our hand
+        }
+
         heldObject = null; // Forget what holding
+    }
+
+    #endregion
+    
+    #region Basic Grab Methods
+
+    // Below is the old parenting grab method
+    void BasicGrab()
+    {
+        collidingObject.GetComponent<Rigidbody>().isKinematic = true; // To prevent object from being influenced by external 
+        collidingObject.transform.SetParent(this.transform); // So that collidingObject follows the motion of the 
+        heldObject = collidingObject;
+    }
+
+    // Below is the old parenting grab method
+    void BasicRelease()
+    {
+        heldObject.GetComponent<Rigidbody>().isKinematic = false; // Responds to forces incl gravity
+        heldObject.transform.SetParent(null); // Make it parentless 
+        heldObject = null; // "Forget" what we were holding
     }
 
     #endregion
