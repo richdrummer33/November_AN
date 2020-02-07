@@ -8,6 +8,9 @@ public class BasicButtonController : MonoBehaviour
 
     public Transform closedPosition; // Where to move the button
 
+    public delegate void ButtonPushedEvent(); // Declaring the delegate
+    public ButtonPushedEvent OnButtonPushed; // Instance of the delegate
+
     // Hand (or other object w/rb and collider) ENTERS
     private void OnTriggerEnter(Collider other)
     {
@@ -15,6 +18,8 @@ public class BasicButtonController : MonoBehaviour
 
         // Button actions go here
         GetComponent<AudioSource>().Play();
+
+        OnButtonPushed(); // When pushed, run all of the methods/functions that are subscribed to this delegate
     }
 
     // Hand (or other object w/rb and collider) LEAVES
