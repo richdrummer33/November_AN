@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractablePaintBrush : MonoBehaviour
+public class InteractablePaintBrush : InteractableObject
 {
     public GameObject paintTrailPrefab; // Need a prefab to paint!
 
@@ -23,8 +23,10 @@ public class InteractablePaintBrush : MonoBehaviour
     }
 
     // Upon Interact, start painting!
-    void Interact()
+    public override void Interact()
     {
+        base.Interact();
+
         if(currentPaintTrail == null) // Check that we're not already painting, before instantiating a new paint trail
         {
             currentPaintTrail = Instantiate(paintTrailPrefab, brushRenderer.transform.position, Quaternion.identity, brushRenderer.transform); // Making a clone of the paint prefab, and placiong on the brush's position (as child of the brush)
@@ -34,8 +36,10 @@ public class InteractablePaintBrush : MonoBehaviour
     }
 
     // Upon StopInteract, stop painting! 
-    void StopInteract()
+    public override void StopInteract()
     {
+        base.StopInteract();
+
         if(currentPaintTrail != null) // Check that we are in fact painting first
         {
             currentPaintTrail.transform.parent = null; // Un-child the paint trail (make it parentless) - will stop following the brush!
