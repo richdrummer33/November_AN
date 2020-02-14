@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class XrGrab : MonoBehaviour
 {
+    #region Variables
+
     public GameObject collidingObject; // the object that we are touching
 
     public GameObject heldObject; // To remember what obj we are holding, so we know what to release
@@ -17,6 +19,8 @@ public class XrGrab : MonoBehaviour
     bool handIsClosed = false;
 
     bool triggerIsPulled = false;
+
+    #endregion
 
     #region Collisions
 
@@ -83,7 +87,12 @@ public class XrGrab : MonoBehaviour
         {
             if(heldObject != null) // Check that we're actually holding something before attempting interact
             {
-                heldObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver); // Attempt to call/run the Interact() method/function on the held object
+                if(heldObject.GetComponent<InteractableObject>() != null) // Check if is an interactable obj (if it has a script that inherits from InteractableObject)
+                {
+                    heldObject.GetComponent<InteractableObject>().Interact(); // Start the interaction
+                }
+
+                //heldObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver); // Attempt to call/run the Interact() method/function on the held object
             }
 
             triggerIsPulled = true; // I just* pulled the trigger
@@ -92,7 +101,12 @@ public class XrGrab : MonoBehaviour
         {
             if(heldObject != null)
             {
-                heldObject.SendMessage("StopInteract", SendMessageOptions.DontRequireReceiver); // Attempt to call/run the the StopInteract() method/function on the held object
+                if(heldObject.GetComponent<InteractableObject>() != null) // Check if is an interactable obj (if it has a script that inherits from InteractableObject)
+                {
+                    heldObject.GetComponent<InteractableObject>().StopInteract(); 
+                }
+
+                //heldObject.SendMessage("StopInteract", SendMessageOptions.DontRequireReceiver); // Attempt to call/run the the StopInteract() method/function on the held object
             }
 
             triggerIsPulled = false; // I just* released the trigger

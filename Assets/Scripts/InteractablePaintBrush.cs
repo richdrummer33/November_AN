@@ -25,7 +25,7 @@ public class InteractablePaintBrush : InteractableObject
     // Upon Interact, start painting!
     public override void Interact()
     {
-        base.Interact();
+        base.Interact(); // Run (call) the inherited (base/originator) method
 
         if(currentPaintTrail == null) // Check that we're not already painting, before instantiating a new paint trail
         {
