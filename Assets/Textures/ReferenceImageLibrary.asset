@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
+  m_Name: ReferenceImageLibrary
+  m_EditorClassIdentifier: 
+  m_GuidLow: 4887342368819084287
+  m_GuidHigh: 1750394412407773602
+  m_Images:
+  - m_SerializedGuid:
+      m_GuidLow: 5429203790101465642
+      m_GuidHigh: 4587338858227923102
+    m_SerializedTextureGuid:
+      m_GuidLow: 5625686283145389663
+      m_GuidHigh: 16112965702335034777
+    m_Size: {x: 0.0889, y: 0.050831437}
+    m_SpecifySize: 1
+    m_Name: Flex_scaled
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4861120189200188948
+      m_GuidHigh: 17827900692482200745
+    m_SerializedTextureGuid:
+      m_GuidLow: 6680077240094114979
+      m_GuidHigh: 16643177296504982555
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: MarsBox.Front_scaled
+    m_Texture: {fileID: 0}

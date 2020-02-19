@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Session18_ArFoundationPainting.unity
-    guid: c6dc545ac7ca0b84683be5188f59cbd2
+    path: Assets/Scenes/Session19_ArFoundationDungeon.unity
+    guid: 44ada7fe661b889479b3b6c9cf42f20b
   m_configObjects: {}

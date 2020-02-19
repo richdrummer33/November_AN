@@ -33,8 +33,21 @@ public class ArPrefabSpawner : MonoBehaviour
                     Vector3 hitPosition = hitsInfo[0].pose.position;
 
                     prefabInstance = Instantiate(prefab, hitPosition, prefab.transform.rotation);
+
+                    RotateFacePlayer();
                 }
             }
         }
+    }
+
+    void RotateFacePlayer()
+    {
+        Vector3 playerDirection = Camera.main.transform.position - prefabInstance.transform.position; // Direction pointing from the mirror prefab to the phone/player (camera)
+
+        Quaternion rotationTowardsPlayer = Quaternion.FromToRotation(prefabInstance.transform.forward, playerDirection); // Get a "rotation" (quaternion, which describes a rotation) that we can apply to the mirror
+
+        Vector3 verticalAngularRotation = new Vector3(prefabInstance.transform.eulerAngles.x, rotationTowardsPlayer.eulerAngles.y, prefabInstance.transform.eulerAngles.z); // Creating a Vector3 that contains the angeles in degrees (i.e. euler angles) 
+
+        prefabInstance.transform.rotation = Quaternion.Euler(verticalAngularRotation); // Finally applying the new rotation to the prefab instance
     }
 }
